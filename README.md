@@ -2,47 +2,47 @@
 
 ## Development
 
-### Required tools
+### Submodules
 
-- JDK11
-- Gradle
-
-You can use the `shell.nix` script to get a shell with all required dependencies, should work on most linux distributions and on Windows Subsystem for Linux (WSL) [see how to install Nix.](https://nixos.org/download)
+Fetch submodules after cloning:
 
 ```sh
-nix-shell
+git clone https://github.com/hawks-atlanta/worker-java
+git submodule update --init
 ```
 
-Otherwise you need to install `jdk11` and use the **gradle wrapper script** `./gradlew` instead of `gradle`. For example:
+### Tools
+
+- Have `jdk11` or newer installed.
+- (Optional) Use the **gradle wrapper script** (`./gradlew`) for all `gradle` commands. For example:
+
+    ```sh
+    ./gradlew build
+    ```
+
+- (Optional) Use the provided `nix-shell` to get into a shell with all required dependecies [[install Nix](https://nixos.org/download)].
+
+    ```sh
+    nix-shell
+    ```
+
+### Run
 
 ```sh
-./gradlew build
+gradle run
 ```
 
-### Building
-
-To generate a single JAR run the command below. It'll be located at `./app/build/libs/app-all.jar`.
-
-```sh
-gradle build
-```
-
-### Testing
-
-To run all tests:
+### Run tests
 
 ```sh
 gradle test
 ```
 
-Generate coverage report which can be found at `app/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml`.
+### Format
+
+You need to have `clang-format` installed.
 
 ```sh
-gradle testCodeCoverageReport
-```
-
-### Running
-
-```sh
-gradle run
+./format.sh clang-check # check (doesn't write)
+./format.sh clang-format # apply (writes)
 ```
