@@ -28,9 +28,5 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '11'
-      - name: Set up docker environment
-        run: docker compose up -d
       - name: Test
         run: chmod +x ./gradlew && ./gradlew test
-      - name: Clean docker environment
-        run: docker compose down --rmi all -v --remove-orphans
