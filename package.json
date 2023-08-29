@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "standard-version": "^9.5.0"
+  },
+  "version": "0.0.1"
+}
