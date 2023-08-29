@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install clang-format
-        run: apt update && apt --assume-yes install clang-format
+        run: sudo apt update && sudo apt --assume-yes install clang-format
 
       - name: Clang check
         run: chmod +x ./format.sh && ./format.sh clang-check
