@@ -1,0 +1,24 @@
+name: Coverage
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      - name: Test
+        run: chmod +x ./gradlew && ./gradlew testCodeCoverageReport
+      - uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./app/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+          fail_ci_if_error: true
