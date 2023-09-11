@@ -15,7 +15,7 @@ public class App
 
 		try {
 			// serve RMI
-			MessengerServiceImpl server = new MessengerServiceImpl ();
+			WorkerServiceImpl server = new WorkerServiceImpl ();
 			server.createStubAndBind ();
 
 		} catch (Exception e) {
