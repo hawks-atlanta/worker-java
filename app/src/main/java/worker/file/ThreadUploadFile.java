@@ -19,12 +19,21 @@ public class ThreadUploadFile extends Thread
 	{
 		System.out.println ("This code is running in a thread");
 
-		// TODO: check file is not empty
-		// TODO: check file is not too large?
-		// TODO: pick place to save file
+		// not empty
+		if (this.contents.length == 0) {
+			return;
+		}
+
+		// too large
+		if (this.contents.length > 100000000) {
+			return;
+		}
+
+		// pick volume to save file
+		// TODO: Improve algorithm
+		int volume = 1;
 
 		String basePath = "/tmp/store";
-		int volume = 1;
 		String filePath =
 			String.format ("%1$s/files/volume%2$d/%3$s", basePath, volume, this.filename);
 		String backupPath =
