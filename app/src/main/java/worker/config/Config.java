@@ -3,10 +3,10 @@ package worker.config;
 public class Config
 {
 	private static String volumeBasePath = "";
-	private static int volumeCount = 1;
+	private static int volumeCount = 3;
 
 	public static String getVolumeBasePath () { return volumeBasePath; }
-	public static String getVolumeCount () { return volumeCount; }
+	public static int getVolumeCount () { return volumeCount; }
 
 	public static void initializeFromEnv ()
 	{
