@@ -1,9 +1,9 @@
-package capyfile.rmi;
+package worker;
 
-import capyfile.rmi.interfaces.DownloadFileArgs;
-import capyfile.rmi.interfaces.File;
-import capyfile.rmi.interfaces.IWorkerService;
-import capyfile.rmi.interfaces.UploadFileArgs;
+import capyfile.rmi.DownloadFileArgs;
+import capyfile.rmi.File;
+import capyfile.rmi.IWorkerService;
+import capyfile.rmi.UploadFileArgs;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
