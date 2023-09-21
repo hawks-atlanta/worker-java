@@ -1,16 +1,24 @@
 package worker.config;
 
+import java.util.Arrays;
+
 public class Config
 {
 	private static String volumeBasePath = "";
-	private static int volumeCount = 3;
+	private static int[] availableVolumes = {};
 
 	public static String getVolumeBasePath () { return volumeBasePath; }
-	public static int getVolumeCount () { return volumeCount; }
+	public static int[] getAvailableVolumes () { return availableVolumes; }
 
 	public static void initializeFromEnv ()
 	{
 		volumeBasePath = System.getenv ().getOrDefault ("VOLUME_BASE_PATH", "/tmp/store");
-		volumeCount = Integer.parseInt(System.getenv ().getOrDefault ("VOLUME_COUNT", "1"));
+
+		String availableVolumesStr = System.getenv ().getOrDefault ("AVAILABLE_VOLUMES", "1,2,3");
+		availableVolumes = Arrays.stream(availableVolumesStr.split(",")).mapToInt(Integer::parseInt).toArray();
+
+		if (availableVolumes.length < 0) {
+			throw new RuntimeException("No available volumes");
+		}
 	}
 }

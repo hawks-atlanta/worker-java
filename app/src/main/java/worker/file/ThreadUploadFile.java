@@ -1,10 +1,9 @@
 package worker.file;
 
 import worker.config.Config;
-import capyfile.rmi.interfaces.UploadFileArgs;
+import capyfile.rmi.UploadFileArgs;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class ThreadUploadFile extends Thread
 {
@@ -32,8 +31,10 @@ public class ThreadUploadFile extends Thread
 		}
 
 		// pick volume to save file
-		// TODO: Improve algorithm for volume picking
-		int volume = (int)(Math.random() * Config.getVolumeCount() + 1);
+		// TODO: Improve
+
+		int[] vols = Config.getAvailableVolumes();
+		int volume = vols[(int) (Math.random() * vols.length)];
 
 		String basePath = "/tmp/store";
 		String filePath =
