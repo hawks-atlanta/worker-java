@@ -4,21 +4,32 @@ import java.util.Arrays;
 
 public class Config
 {
+	private static String metadataBaseUrl = "";
 	private static String volumeBasePath = "";
 	private static int[] availableVolumes = {};
 
+	public static String getMetadataBaseUrl () { return metadataBaseUrl; }
 	public static String getVolumeBasePath () { return volumeBasePath; }
 	public static int[] getAvailableVolumes () { return availableVolumes; }
+	public static String getEnv (String env, String def)
+	{
+		return System.getenv ().getOrDefault (env, def);
+	}
 
 	public static void initializeFromEnv ()
 	{
-		volumeBasePath = System.getenv ().getOrDefault ("VOLUME_BASE_PATH", "/tmp/store");
+		Config.metadataBaseUrl = getEnv ("METADATA_BASEURL", "http://127.0.0.1:8082");
+		Config.volumeBasePath = getEnv ("VOLUME_BASE_PATH", "/tmp/store");
+		String aVols = getEnv ("AVAILABLE_VOLUMES", "");
 
-		String availableVolumesStr = System.getenv ().getOrDefault ("AVAILABLE_VOLUMES", "1,2,3");
-		availableVolumes = Arrays.stream(availableVolumesStr.split(",")).mapToInt(Integer::parseInt).toArray();
-
-		if (availableVolumes.length < 0) {
-			throw new RuntimeException("No available volumes");
+		try {
+			Config.availableVolumes =
+				Arrays.stream (aVols.split (",")).mapToInt (Integer::parseInt).toArray ();
+			if (availableVolumes.length < 0) {
+				throw new RuntimeException ("No available volumes");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException ("No available volumes");
 		}
 	}
 }
