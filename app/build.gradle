@@ -26,6 +26,10 @@ dependencies {
 
     // Use subproject
     implementation project(':capyfile.rmi')
+
+    // JSON library
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation 'org.json:json:20230618'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
