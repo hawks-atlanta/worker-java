@@ -28,7 +28,7 @@ public class WorkerServiceImpl implements IWorkerService
 
 	public void uploadFile (UploadFileArgs args) throws RemoteException
 	{
-		// send to a new thread
+		// delegate to thread
 
 		ThreadUploadFile thread = new ThreadUploadFile (args.uuid, args.contents);
 		thread.start ();

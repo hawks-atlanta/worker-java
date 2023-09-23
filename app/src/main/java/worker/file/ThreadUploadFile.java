@@ -33,8 +33,9 @@ public class ThreadUploadFile extends Thread
 
 		// write
 
-		writeFile (filePath);
-		writeFile (backupPath);
+		if (!writeFile (filePath) || !writeFile (backupPath)) {
+			return;
+		}
 
 		// mark file as ready
 
@@ -59,7 +60,6 @@ public class ThreadUploadFile extends Thread
 		try (FileOutputStream outputStream = new FileOutputStream (outputFile)) {
 			outputStream.write (this.contents);
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.err.println (e);
 			return false;
 		}
