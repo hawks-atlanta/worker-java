@@ -1,53 +1,53 @@
 package worker.file;
 
-import worker.config.Config;
-import capyfile.rmi.UploadFileArgs;
 import java.io.File;
 import java.io.FileOutputStream;
+import worker.config.Config;
+import worker.services.MetadataService;
 
 public class ThreadUploadFile extends Thread
 {
-	String filename;
+	private static final int READY_ATTEMPTS = 5;
+	private static final long READY_TIMEOUT = 5000;
+	String fileUUID;
 	byte[] contents;
 
-	public ThreadUploadFile (String filename, byte[] contents)
+	public ThreadUploadFile (String fileUUID, byte[] contents)
 	{
-		this.filename = filename;
+		this.fileUUID = fileUUID;
 		this.contents = contents;
 	}
 
 	public void run ()
 	{
-		System.out.println ("This code is running in a thread");
-
-		// not empty
-		if (this.contents.length == 0) {
-			return;
-		}
-
-		// too large
-		if (this.contents.length > 100000000) {
-			return;
-		}
-
 		// pick volume to save file
-		// TODO: Improve
 
-		int[] vols = Config.getAvailableVolumes();
-		int volume = vols[(int) (Math.random() * vols.length)];
+		int[] vols = Config.getAvailableVolumes ();
+		int volume = vols[(int)(Math.random () * vols.length)];
 
 		String basePath = "/tmp/store";
 		String filePath =
-			String.format ("%1$s/files/volume%2$d/%3$s", basePath, volume, this.filename);
+			String.format ("%1$s/files/volume%2$d/%3$s", basePath, volume, this.fileUUID);
 		String backupPath =
-			String.format ("%1$s/backups/volume%2$d/%3$s", basePath, volume, this.filename);
+			String.format ("%1$s/backups/volume%2$d/%3$s", basePath, volume, this.fileUUID);
 
 		// write
 
 		writeFile (filePath);
 		writeFile (backupPath);
 
-		// let metadata know the file is ready
+		// mark file as ready
+
+		for (int i = 0; i < READY_ATTEMPTS; i++) {
+			if (MetadataService.fileReady (fileUUID, volume)) {
+				break;
+			}
+			try {
+				sleep (READY_TIMEOUT);
+			} catch (Exception e) {
+				e.printStackTrace ();
+			}
+		}
 	}
 
 	private boolean writeFile (String path)

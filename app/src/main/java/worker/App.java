@@ -6,7 +6,7 @@ public class App
 {
 	public static void main (String[] args)
 	{
-		Config.initializeFromEnv();
+		Config.initializeFromEnv ();
 		System.out.println ("Worker: Serving RMI");
 
 		try {
@@ -19,4 +19,3 @@ public class App
 		}
 	}
 }
-
