@@ -25,12 +25,12 @@ public class MetadataService
 		// PUT request
 
 		try {
-			HttpRequest request = HttpRequest.newBuilder ()
-									  .uri (URI.create (uri))
-									  .PUT (BodyPublishers.ofString (body.toString ()))
-									  .build ();
-			HttpClient client = HttpClient.newHttpClient ();
-			HttpResponse<String> res = client.send (request, HttpResponse.BodyHandlers.ofString ());
+			HttpResponse<String> res = HttpClient.newHttpClient ().send (
+				HttpRequest.newBuilder ()
+					.uri (URI.create (uri))
+					.PUT (BodyPublishers.ofString (body.toString ()))
+					.build (),
+				HttpResponse.BodyHandlers.ofString ());
 
 			if (res.statusCode () == 204) {
 				return true;
