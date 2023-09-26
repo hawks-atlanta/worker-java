@@ -25,16 +25,15 @@ public class ThreadUploadFile extends Thread
 		int[] vols = Config.getAvailableVolumes ();
 		int volume = vols[(int)(Math.random () * vols.length)];
 
-		String basePath = "/tmp/store";
-		String filePath =
-			String.format ("%1$s/files/volume%2$d/%3$s", basePath, volume, this.fileUUID);
-		String backupPath =
-			String.format ("%1$s/backups/volume%2$d/%3$s", basePath, volume, this.fileUUID);
+		String filePath = String.format (
+			"%1$s/files/volume%2$d/%3$s", Config.getVolumeBasePath (), volume, this.fileUUID);
+		String backupPath = String.format (
+			"%1$s/backups/volume%2$d/%3$s", Config.getVolumeBasePath (), volume, this.fileUUID);
 
 		// write
 
 		if (!writeFile (filePath) || !writeFile (backupPath)) {
-			return;
+			return; // couldn't write
 		}
 
 		// mark file as ready

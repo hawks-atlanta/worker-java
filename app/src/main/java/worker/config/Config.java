@@ -11,7 +11,7 @@ public class Config
 	public static String getMetadataBaseUrl () { return metadataBaseUrl; }
 	public static String getVolumeBasePath () { return volumeBasePath; }
 	public static int[] getAvailableVolumes () { return availableVolumes; }
-	public static String getEnv (String env, String def)
+	private static String getEnv (String env, String def)
 	{
 		return System.getenv ().getOrDefault (env, def);
 	}
@@ -25,11 +25,12 @@ public class Config
 		try {
 			Config.availableVolumes =
 				Arrays.stream (aVols.split (",")).mapToInt (Integer::parseInt).toArray ();
-			if (availableVolumes.length < 0) {
-				throw new RuntimeException ("No available volumes");
+			System.err.println(availableVolumes.length);
+			if (availableVolumes.length == 0) {
+				throw new RuntimeException ("No volumes available");
 			}
 		} catch (Exception e) {
-			throw new RuntimeException ("No available volumes");
+			throw new RuntimeException ("No volumes available");
 		}
 	}
 }
