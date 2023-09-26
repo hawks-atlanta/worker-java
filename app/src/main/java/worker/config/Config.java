@@ -18,8 +18,8 @@ public class Config
 
 	public static void initializeFromEnv ()
 	{
-		Config.metadataBaseUrl = getEnv ("METADATA_BASEURL", "http://127.0.0.1:8082");
-		Config.volumeBasePath = getEnv ("VOLUME_BASE_PATH", "/tmp/store");
+		Config.metadataBaseUrl = getEnv ("METADATA_BASEURL", "http://127.0.0.1:8082/api/v1");
+		Config.volumeBasePath = getEnv ("VOLUME_BASE_PATH", "/var/capy/store");
 		String aVols = getEnv ("AVAILABLE_VOLUMES", "");
 
 		try {

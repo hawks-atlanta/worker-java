@@ -8,7 +8,6 @@ import java.net.http.HttpResponse;
 import java.util.UUID;
 import org.json.JSONObject;
 import worker.config.Config;
-import worker.config.ConfigMetadata;
 
 public class MetadataService
 {
@@ -17,9 +16,7 @@ public class MetadataService
 		JSONObject body = new JSONObject ();
 		body.put ("volume", String.valueOf (volume));
 
-		String uri = String.format (
-			"%s/%s/files/ready/%s", Config.getMetadataBaseUrl (), ConfigMetadata.basePath,
-			fileUUID);
+		String uri = String.format ("%s/files/ready/%s", Config.getMetadataBaseUrl (), fileUUID);
 
 		// PUT request
 
@@ -43,9 +40,7 @@ public class MetadataService
 
 	public static boolean checkReady (String fileUUID)
 	{
-		String uri = String.format (
-			"%s/%s/files/metadata/%s", Config.getMetadataBaseUrl (), ConfigMetadata.basePath,
-			fileUUID);
+		String uri = String.format ("%s/files/metadata/%s", Config.getMetadataBaseUrl (), fileUUID);
 
 		// GET
 
@@ -82,7 +77,7 @@ public class MetadataService
 		try {
 			HttpResponse<String> res = HttpClient.newHttpClient ().send (
 				HttpRequest.newBuilder ()
-					.uri (URI.create (Config.getMetadataBaseUrl () + "/api/v1/files"))
+					.uri (URI.create (Config.getMetadataBaseUrl () + "/files"))
 					.POST (BodyPublishers.ofString (body.toString ()))
 					.build (),
 				HttpResponse.BodyHandlers.ofString ());
