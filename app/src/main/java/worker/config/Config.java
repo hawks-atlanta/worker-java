@@ -25,7 +25,7 @@ public class Config
 		try {
 			Config.availableVolumes =
 				Arrays.stream (aVols.split (",")).mapToInt (Integer::parseInt).toArray ();
-			System.err.println(availableVolumes.length);
+			System.err.println (availableVolumes.length);
 			if (availableVolumes.length == 0) {
 				throw new RuntimeException ("No volumes available");
 			}
