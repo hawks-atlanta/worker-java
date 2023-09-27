@@ -36,7 +36,6 @@ class UTFileIO
 
 			UploadFileArgs req = new UploadFileArgs (uuid, TestUtil.randomBytes (32));
 			server.uploadFile (req);
-			System.err.println (req.uuid);
 
 			// wait until it's written
 
