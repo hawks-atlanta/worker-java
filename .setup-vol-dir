@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+#
+# Helper to create the directory structure required for Worker service
+# $1 -> Base Path
+
+mkdir -p $1/files/volume1
+mkdir -p $1/files/volume2
+mkdir -p $1/files/volume3
+mkdir -p $1/backups/volume1
+mkdir -p $1/backups/volume2
+mkdir -p $1/backups/volume3

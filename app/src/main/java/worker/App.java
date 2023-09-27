@@ -1,16 +1,12 @@
 package worker;
 
-import capyfile.rmi.*;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+import worker.config.Config;
 
 public class App
 {
 	public static void main (String[] args)
 	{
+		Config.initializeFromEnv ();
 		System.out.println ("Worker: Serving RMI");
 
 		try {
@@ -19,7 +15,7 @@ public class App
 			server.createStubAndBind ();
 
 		} catch (Exception e) {
-			System.out.println (e);
+			e.printStackTrace ();
 		}
 	}
 }
