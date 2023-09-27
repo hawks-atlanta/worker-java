@@ -1,0 +1,51 @@
+version: '3.1'
+
+networks:
+  net:
+
+services:
+  metadata:
+    image: ghcr.io/hawks-atlanta/metadata-scala:latest
+    container_name: metadata
+    restart: on-failure
+    depends_on:
+      - postgres-db
+    ports:
+      - "127.0.0.1:8082:8080"
+    environment:
+      DATABASE_HOST: postgres-db
+      DATABASE_PORT: 5432
+      DATABASE_NAME: metadatadb
+      DATABASE_USER: username
+      DATABASE_PASSWORD: password
+    networks:
+      - net
+
+  postgres-db:
+    image: postgres:latest
+    container_name: postgres-db
+    restart: on-failure
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      - POSTGRES_DB=metadatadb
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=username
+    networks:
+      - net
+
+  postgres-admin:
+    image: adminer
+    ports:
+      - "127.0.0.1:5050:8080"
+    environment:
+      ADMINER_DESIGN: hever
+      ADMINER_DEFAULT_SERVER: postgres-db
+      ADMINER_DEFAULT_USER: username
+      ADMINER_DEFAULT_PASSWORD: password
+      ADMINER_DEFAULT_TYPE: postgresql
+      ADMINER_DEFAULT_PORT: 5432
+      ADMINER_DEFAULT_DB: metadatadb
+    networks:
+      - net
+

@@ -11,22 +11,35 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: true
+
       - uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '11'
+
       - name: Build
-        run: chmod +x ./gradlew && ./gradlew build
+        run: chmod +x ./gradlew && ./gradlew build -x test
   
   test:
     runs-on: ubuntu-latest
+    env:
+      VOLUME_BASE_PATH: "/tmp/capy"
+      AVAILABLE_VOLUMES: "1,2,3"
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: true
+
       - uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '11'
+
+      - name: Create dir structure
+        run: chmod +x ./.setup-vol-dir && ./.setup-vol-dir $VOLUME_BASE_PATH
+
+      - name: Start services
+        run: docker-compose up -d
+
       - name: Test
         run: chmod +x ./gradlew && ./gradlew test

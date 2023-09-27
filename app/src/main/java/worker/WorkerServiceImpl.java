@@ -1,12 +1,14 @@
-package capyfile.rmi;
+package worker;
 
-import capyfile.rmi.interfaces.File;
-import capyfile.rmi.interfaces.FileDownload;
-import capyfile.rmi.interfaces.IWorkerService;
+import capyfile.rmi.DownloadFileArgs;
+import capyfile.rmi.File;
+import capyfile.rmi.IWorkerService;
+import capyfile.rmi.UploadFileArgs;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import worker.file.ThreadUploadFile;
 
 public class WorkerServiceImpl implements IWorkerService
 {
@@ -18,15 +20,23 @@ public class WorkerServiceImpl implements IWorkerService
 			(IWorkerService)UnicastRemoteObject.exportObject ((IWorkerService)this, 0);
 
 		// RMI registry
-		Registry registry = LocateRegistry.createRegistry (1900);
+		Registry registry = LocateRegistry.createRegistry (1099);
 
 		// bind remote object
 		registry.rebind ("WorkerService", stub);
 	}
 
-	public void uploadFile (File upload) throws RemoteException { return; }
+	public void uploadFile (UploadFileArgs args) throws RemoteException
+	{
+		// delegate to thread
 
-	public File downloadFile (FileDownload download) throws RemoteException
+		ThreadUploadFile thread = new ThreadUploadFile (args.uuid, args.contents);
+		thread.start ();
+
+		return;
+	}
+
+	public File downloadFile (DownloadFileArgs args) throws RemoteException
 	{
 		File file = new File ("----", null);
 		return file;

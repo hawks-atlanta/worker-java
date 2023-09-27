@@ -4,4 +4,13 @@
 # Ignore Gradle build output directory
 build
 
+# npm
 node_modules
+
+# JDTLS
+bin
+.settings
+.classpath
+.project
+/workspace
+/*/workspace
