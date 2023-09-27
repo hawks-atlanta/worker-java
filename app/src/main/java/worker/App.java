@@ -15,7 +15,7 @@ public class App
 			server.createStubAndBind ();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace ();
 		}
 	}
 }

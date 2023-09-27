@@ -59,7 +59,7 @@ public class ThreadUploadFile extends Thread
 		try (FileOutputStream outputStream = new FileOutputStream (outputFile)) {
 			outputStream.write (this.contents);
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace ();
 			return false;
 		}
 
