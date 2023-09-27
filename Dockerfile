@@ -19,7 +19,7 @@ COPY --from=builder /src/.setup-vol-dir /opt/.setup-vol-dir
 RUN /opt/.setup-vol-dir /var/capy/store
 RUN rm /opt/.setup-vol-dir
 
-EXPOSE 8080/tcp
+EXPOSE 1099/tcp
 ENV METADATA_BASEURL "http://127.0.0.1:8082/api/v1"
 ENV VOLUME_BASE_PATH "/var/capy/store"
 ENV AVAILABLE_VOLUMES "1,2,3"
