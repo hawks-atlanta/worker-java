@@ -35,12 +35,17 @@ services:
       - net
 
   postgres-admin:
-    image: dpage/pgadmin4
-    container_name: postgres-admin
+    image: adminer
     ports:
-      - "127.0.0.1:5050:80"
+      - "127.0.0.1:5050:8080"
     environment:
-      - PGADMIN_DEFAULT_EMAIL=p@p.com
-      - PGADMIN_DEFAULT_PASSWORD=p
+      ADMINER_DESIGN: hever
+      ADMINER_DEFAULT_SERVER: postgres-db
+      ADMINER_DEFAULT_USER: username
+      ADMINER_DEFAULT_PASSWORD: password
+      ADMINER_DEFAULT_TYPE: postgresql
+      ADMINER_DEFAULT_PORT: 5432
+      ADMINER_DEFAULT_DB: metadatadb
     networks:
       - net
+
