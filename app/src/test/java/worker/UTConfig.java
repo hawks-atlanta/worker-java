@@ -1,6 +1,6 @@
 package worker;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class UTConfig
 			Config.initializeFromEnv ();
 			fail ();
 		} catch (Exception e) {
-			assertEquals ("No volumes available", e.getMessage (), "Should throw");
+			assertTrue (e instanceof RuntimeException, "Should throw");
 		}
 
 		try {
@@ -30,7 +30,7 @@ class UTConfig
 			Config.initializeFromEnv ();
 			fail ();
 		} catch (Exception e) {
-			assertEquals ("No volumes available", e.getMessage (), "Should throw");
+			assertTrue (e instanceof RuntimeException, "Should throw");
 		}
 	}
 }

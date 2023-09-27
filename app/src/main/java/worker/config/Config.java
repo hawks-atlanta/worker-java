@@ -26,10 +26,10 @@ public class Config
 			Config.availableVolumes =
 				Arrays.stream (aVols.split (",")).mapToInt (Integer::parseInt).toArray ();
 			if (availableVolumes.length == 0) {
-				throw new RuntimeException ("No volumes available");
+				throw new RuntimeException ("Invalid var AVAILABLE_VOLUMES: No volumes specified");
 			}
 		} catch (Exception e) {
-			throw new RuntimeException ("No volumes available");
+			throw new RuntimeException ("Invalid var AVAILABLE_VOLUMES: Couldn't parse");
 		}
 	}
 }
