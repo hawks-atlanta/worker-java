@@ -8,17 +8,18 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.security.InvalidParameterException;
 import java.util.stream.IntStream;
 import worker.config.Config;
 
 public class DownloadFile
 {
-	public static DownloadFileRes downloadFile (DownloadFileArgs args) throws FileNotFoundException
+	public static DownloadFileRes downloadFile (DownloadFileArgs args) throws Exception
 	{
 		// volume exists
 
 		if (!IntStream.of (Config.getAvailableVolumes ()).anyMatch (x -> x == args.volume)) {
-			return null;
+			throw new InvalidParameterException ();
 		}
 
 		RemoteInputStreamServer istream = null;
@@ -58,10 +59,6 @@ public class DownloadFile
 
 		} catch (Exception e) {
 			System.err.println (e);
-
-			if (e instanceof FileNotFoundException) {
-				throw (FileNotFoundException) e;
-			}
 		} finally {
 			if (istream != null)
 				istream.close ();

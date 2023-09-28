@@ -4,7 +4,6 @@ import capyfile.rmi.DownloadFileArgs;
 import capyfile.rmi.DownloadFileRes;
 import capyfile.rmi.IWorkerService;
 import capyfile.rmi.UploadFileArgs;
-import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -38,7 +37,7 @@ public class WorkerServiceImpl implements IWorkerService
 		return;
 	}
 
-	public DownloadFileRes downloadFile (DownloadFileArgs args) throws FileNotFoundException
+	public DownloadFileRes downloadFile (DownloadFileArgs args) throws Exception
 	{
 		return DownloadFile.downloadFile (args);
 	}
