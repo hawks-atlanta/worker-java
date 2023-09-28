@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.5 (2023-09-27)
+
+
+### Features
+
+* Upload file & Testing ([#14](https://github.com/hawks-atlanta/worker-java/issues/14)) ([757794b](https://github.com/hawks-atlanta/worker-java/commit/757794bf7f570ab425b775f3c8c3f0e165642524))
+
 ### 0.0.4 (2023-09-13)
 
 ### 0.0.3 (2023-09-11)

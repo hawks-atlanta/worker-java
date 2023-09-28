@@ -37,7 +37,6 @@ dependencies {
     // RMI remote stream
     // https://mvnrepository.com/artifact/com.healthmarketscience.rmiio/rmiio
     implementation 'com.healthmarketscience.rmiio:rmiio:2.1.2'
-
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
