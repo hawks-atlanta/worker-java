@@ -17,7 +17,7 @@ class UTFileIO
 		try {
 			TestUtil.updateEnv ("AVAILABLE_VOLUMES", "1,2,3");
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 		}
 		Config.initializeFromEnv ();
 	}
@@ -29,10 +29,8 @@ class UTFileIO
 		try {
 			// get file uuid
 
-			String uuid =
-				MetadataService
-					.saveFile (UUID.randomUUID (), null, "txt", UUID.randomUUID ().toString (), 32)
-					.toString ();
+			UUID uuid = MetadataService.saveFile (
+				UUID.randomUUID (), null, "txt", UUID.randomUUID ().toString (), 32);
 
 			UploadFileArgs req = new UploadFileArgs (uuid, TestUtil.randomBytes (32));
 			server.uploadFile (req);
@@ -40,10 +38,10 @@ class UTFileIO
 			// wait until it's written
 
 			Thread.sleep (2_000);
-			assertTrue (MetadataService.checkReady (req.uuid), () -> "File is ready");
+			assertTrue (MetadataService.checkReady (req.uuid.toString ()), () -> "File is ready");
 			return;
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 		}
 		fail ("Couldn't check file");
 	}

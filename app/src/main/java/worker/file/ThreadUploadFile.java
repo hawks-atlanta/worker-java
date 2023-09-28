@@ -48,7 +48,7 @@ public class ThreadUploadFile extends Thread
 			try {
 				sleep (READY_TIMEOUT);
 			} catch (Exception e) {
-				e.printStackTrace ();
+				System.err.println (e);
 			}
 		}
 	}
@@ -62,7 +62,7 @@ public class ThreadUploadFile extends Thread
 		try (FileOutputStream outputStream = new FileOutputStream (outputFile)) {
 			outputStream.write (this.contents);
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 			return false;
 		}
 

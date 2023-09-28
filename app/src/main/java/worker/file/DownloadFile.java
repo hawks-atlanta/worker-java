@@ -7,12 +7,13 @@ import com.healthmarketscience.rmiio.RemoteInputStreamServer;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.stream.IntStream;
 import worker.config.Config;
 
 public class DownloadFile
 {
-	public static DownloadFileRes downloadFile (DownloadFileArgs args)
+	public static DownloadFileRes downloadFile (DownloadFileArgs args) throws FileNotFoundException
 	{
 		// volume exists
 
@@ -24,12 +25,24 @@ public class DownloadFile
 
 		try {
 
-			// TODO: Falldown to backup
-
-			String filePath = String.format (
+			File file = new File (String.format (
 				"%s/files/volume%d/%s", Config.getVolumeBasePath (), args.volume,
-				args.uuid.toString ());
-			File file = new File (filePath);
+				args.uuid.toString ()));
+
+			// fallback to backup
+			// NOTE: This could have problems in NFS
+
+			if (!file.isFile ()) {
+
+				file = new File (String.format (
+					"%s/backups/volume%d/%s", Config.getVolumeBasePath (), args.volume,
+					args.uuid.toString ()));
+
+				// bad luck couldn't find backup
+				if (!file.isFile ()) {
+					throw new FileNotFoundException ();
+				}
+			}
 
 			istream =
 				new GZIPRemoteInputStream (new BufferedInputStream (new FileInputStream (file)));
@@ -44,12 +57,16 @@ public class DownloadFile
 			return res;
 
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
+
+			if (e instanceof FileNotFoundException) {
+				throw (FileNotFoundException) e;
+			}
 		} finally {
 			if (istream != null)
 				istream.close ();
 		}
 
-		return null;
+		throw new FileNotFoundException ("Couldn't find file");
 	}
 }
