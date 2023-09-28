@@ -2,6 +2,7 @@ package worker.file;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.UUID;
 import worker.config.Config;
 import worker.services.MetadataService;
 
@@ -9,10 +10,10 @@ public class ThreadUploadFile extends Thread
 {
 	private static final int READY_ATTEMPTS = 5;
 	private static final long READY_TIMEOUT = 5000;
-	String fileUUID;
+	UUID fileUUID;
 	byte[] contents;
 
-	public ThreadUploadFile (String fileUUID, byte[] contents)
+	public ThreadUploadFile (UUID fileUUID, byte[] contents)
 	{
 		this.fileUUID = fileUUID;
 		this.contents = contents;
@@ -26,9 +27,11 @@ public class ThreadUploadFile extends Thread
 		int volume = vols[(int)(Math.random () * vols.length)];
 
 		String filePath = String.format (
-			"%1$s/files/volume%2$d/%3$s", Config.getVolumeBasePath (), volume, this.fileUUID);
+			"%1$s/files/volume%2$d/%3$s", Config.getVolumeBasePath (), volume,
+			this.fileUUID.toString ());
 		String backupPath = String.format (
-			"%1$s/backups/volume%2$d/%3$s", Config.getVolumeBasePath (), volume, this.fileUUID);
+			"%1$s/backups/volume%2$d/%3$s", Config.getVolumeBasePath (), volume,
+			this.fileUUID.toString ());
 
 		// write
 

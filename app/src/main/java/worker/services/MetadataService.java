@@ -11,12 +11,13 @@ import worker.config.Config;
 
 public class MetadataService
 {
-	public static boolean fileReady (String fileUUID, int volume)
+	public static boolean fileReady (UUID fileUUID, int volume)
 	{
 		JSONObject body = new JSONObject ();
 		body.put ("volume", String.valueOf (volume));
 
-		String uri = String.format ("%s/files/ready/%s", Config.getMetadataBaseUrl (), fileUUID);
+		String uri =
+			String.format ("%s/files/ready/%s", Config.getMetadataBaseUrl (), fileUUID.toString ());
 
 		// PUT request
 
@@ -40,7 +41,8 @@ public class MetadataService
 
 	public static boolean checkReady (String fileUUID)
 	{
-		String uri = String.format ("%s/files/metadata/%s", Config.getMetadataBaseUrl (), fileUUID);
+		String uri = String.format (
+			"%s/files/metadata/%s", Config.getMetadataBaseUrl (), fileUUID.toString ());
 
 		// GET
 
