@@ -39,8 +39,15 @@ public class MetadataService
 		return false;
 	}
 
-	public static boolean checkReady (String fileUUID)
+	public static class ResGetMetadata
 	{
+		public int volume;
+		public boolean isReady = false;
+	}
+
+	public static ResGetMetadata getMetadata (String fileUUID)
+	{
+		ResGetMetadata r = new ResGetMetadata ();
 		String uri = String.format (
 			"%s/files/metadata/%s", Config.getMetadataBaseUrl (), fileUUID.toString ());
 
@@ -52,13 +59,14 @@ public class MetadataService
 				HttpResponse.BodyHandlers.ofString ());
 
 			if (res.statusCode () == 200) {
-				return true;
+				r.volume = new JSONObject (res.body ()).getInt ("volume");
+				r.isReady = true;
 			}
 		} catch (Exception e) {
 			System.err.println (e);
 		}
 
-		return false;
+		return r;
 	}
 
 	public static UUID
