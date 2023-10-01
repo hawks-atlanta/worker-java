@@ -14,4 +14,3 @@ jobs:
 
       - name: Clang check
         run: chmod +x ./format.sh && ./format.sh clang-check
-

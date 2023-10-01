@@ -33,6 +33,10 @@ dependencies {
     // JSON library
     // https://mvnrepository.com/artifact/org.json/json
     implementation 'org.json:json:20230618'
+
+    // RMI remote stream
+    // https://mvnrepository.com/artifact/com.healthmarketscience.rmiio/rmiio
+    implementation 'com.healthmarketscience.rmiio:rmiio:2.1.2'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -55,7 +59,7 @@ tasks.named('test') {
         events TestLogEvent.FAILED,
                TestLogEvent.PASSED,
                TestLogEvent.SKIPPED,
-               TestLogEvent.STANDARD_ERROR
+               TestLogEvent.STANDARD_ERROR,
                TestLogEvent.STANDARD_OUT
         exceptionFormat TestExceptionFormat.FULL
         showExceptions true
