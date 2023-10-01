@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.6 (2023-10-01)
+
+
+### Features
+
+* download file with data streaming ([#16](https://github.com/hawks-atlanta/worker-java/issues/16)) ([75a488f](https://github.com/hawks-atlanta/worker-java/commit/75a488f4fa2f976bcb307ff24fd392aadd597556))
+
 ### 0.0.5 (2023-09-27)
 
 
