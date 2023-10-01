@@ -57,10 +57,18 @@ import worker.services.MetadataService;
 			// wait until it's written
 
 			Thread.sleep (2_000);
+
 			MetadataService.ResGetMetadata resM =
 				MetadataService.getMetadata (req.uuid.toString ());
 			assertTrue (resM.isReady, () -> "File is ready");
 			State.fileVolume = resM.volume;
+
+			// check it exists on disk
+
+			File file = new File (String.format (
+				"%1$s/files/volume%2$d/%3$s", Config.getVolumeBasePath (), State.fileVolume,
+				State.fileUUID.toString ()));
+			assertTrue (file.isFile (), () -> "File was written on disk");
 
 			return;
 		} catch (Exception e) {
