@@ -1,13 +1,14 @@
 package worker;
 
 import capyfile.rmi.DownloadFileArgs;
-import capyfile.rmi.File;
+import capyfile.rmi.DownloadFileRes;
 import capyfile.rmi.IWorkerService;
 import capyfile.rmi.UploadFileArgs;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import worker.file.DownloadFile;
 import worker.file.ThreadUploadFile;
 
 public class WorkerServiceImpl implements IWorkerService
@@ -36,9 +37,8 @@ public class WorkerServiceImpl implements IWorkerService
 		return;
 	}
 
-	public File downloadFile (DownloadFileArgs args) throws RemoteException
+	public DownloadFileRes downloadFile (DownloadFileArgs args) throws Exception
 	{
-		File file = new File ("----", null);
-		return file;
+		return DownloadFile.downloadFile (args);
 	}
 }

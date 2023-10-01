@@ -11,12 +11,13 @@ import worker.config.Config;
 
 public class MetadataService
 {
-	public static boolean fileReady (String fileUUID, int volume)
+	public static boolean fileReady (UUID fileUUID, int volume)
 	{
 		JSONObject body = new JSONObject ();
 		body.put ("volume", String.valueOf (volume));
 
-		String uri = String.format ("%s/files/ready/%s", Config.getMetadataBaseUrl (), fileUUID);
+		String uri =
+			String.format ("%s/files/ready/%s", Config.getMetadataBaseUrl (), fileUUID.toString ());
 
 		// PUT request
 
@@ -32,15 +33,23 @@ public class MetadataService
 				return true;
 			}
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 		}
 
 		return false;
 	}
 
-	public static boolean checkReady (String fileUUID)
+	public static class ResGetMetadata
 	{
-		String uri = String.format ("%s/files/metadata/%s", Config.getMetadataBaseUrl (), fileUUID);
+		public int volume;
+		public boolean isReady = false;
+	}
+
+	public static ResGetMetadata getMetadata (String fileUUID)
+	{
+		ResGetMetadata r = new ResGetMetadata ();
+		String uri = String.format (
+			"%s/files/metadata/%s", Config.getMetadataBaseUrl (), fileUUID.toString ());
 
 		// GET
 
@@ -50,13 +59,14 @@ public class MetadataService
 				HttpResponse.BodyHandlers.ofString ());
 
 			if (res.statusCode () == 200) {
-				return true;
+				r.volume = new JSONObject (res.body ()).getInt ("volume");
+				r.isReady = true;
 			}
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 		}
 
-		return false;
+		return r;
 	}
 
 	public static UUID
@@ -87,7 +97,7 @@ public class MetadataService
 				return UUID.fromString (resBody.getString ("uuid"));
 			}
 		} catch (Exception e) {
-			e.printStackTrace ();
+			System.err.println (e);
 		}
 
 		throw new Exception ("Couldn't save file metadata");
