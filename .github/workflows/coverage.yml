@@ -17,8 +17,8 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
-          java-version: '11'
+          distribution: "adopt"
+          java-version: "11"
 
       - name: Create dir structure
         run: chmod +x ./.setup-vol-dir && ./.setup-vol-dir $VOLUME_BASE_PATH
