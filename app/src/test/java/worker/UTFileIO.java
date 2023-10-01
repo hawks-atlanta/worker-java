@@ -8,8 +8,11 @@ import capyfile.rmi.DownloadFileArgs;
 import capyfile.rmi.DownloadFileRes;
 import capyfile.rmi.UploadFileArgs;
 import com.healthmarketscience.rmiio.RemoteInputStreamClient;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.security.InvalidParameterException;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,6 +69,20 @@ import worker.services.MetadataService;
 		fail ("Couldn't check file");
 	}
 
+	int copyDataFromStream (InputStream istream, byte[] bytes) throws IOException
+	{
+		byte[] buf = new byte[102400]; // 100KB
+		int bytesPos = 0;
+		int bytesRead = 0;
+
+		while ((bytesRead = istream.read (buf)) >= 0) {
+			System.arraycopy (buf, 0, bytes, bytesPos, bytesRead);
+			bytesPos += bytesRead;
+		}
+
+		return bytesPos;
+	}
+
 	@Test @Order (2) void downloadFile () throws Exception
 	{
 		WorkerServiceImpl server = new WorkerServiceImpl ();
@@ -87,27 +104,30 @@ import worker.services.MetadataService;
 				assertTrue (e instanceof FileNotFoundException, "File not found");
 			}
 
-			// get data stream
+			// download file normaly
 
 			DownloadFileRes res =
 				server.downloadFile (new DownloadFileArgs (State.fileUUID, State.fileVolume));
 
 			istream = RemoteInputStreamClient.wrap (res.stream);
 			byte[] bytes = new byte[(int)res.size];
+			assertEquals (
+				res.size, copyDataFromStream (istream, bytes), "Downloaded file of correct size");
 
-			// copy data from stream by chunks
+			// force download from backup folder
 
-			byte[] buf = new byte[102400]; // 100KB
-			int bytesPos = 0;
-			int bytesRead = 0;
+			File file = new File (String.format (
+				"%1$s/files/volume%2$d/%3$s", Config.getVolumeBasePath (), State.fileVolume,
+				State.fileUUID.toString ()));
 
-			while ((bytesRead = istream.read (buf)) >= 0) {
-				System.arraycopy (buf, 0, bytes, bytesPos, bytesRead);
-				bytesPos += bytesRead;
-			}
+			Files.deleteIfExists (file.toPath ());
 
-			assertEquals (res.size, bytesPos, "Downloaded file of correct size");
-			return;
+			res = server.downloadFile (new DownloadFileArgs (State.fileUUID, State.fileVolume));
+
+			istream = RemoteInputStreamClient.wrap (res.stream);
+			bytes = new byte[(int)res.size];
+			assertEquals (
+				res.size, copyDataFromStream (istream, bytes), "Downloaded file of correct size");
 		} finally {
 			if (istream != null)
 				istream.close ();
