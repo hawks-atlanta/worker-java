@@ -16,7 +16,6 @@ public class WorkerServiceImpl implements IWorkerService
 
 	public void createStubAndBind () throws RemoteException
 	{
-
 		IWorkerService stub =
 			(IWorkerService)UnicastRemoteObject.exportObject ((IWorkerService)this, 0);
 
@@ -29,16 +28,23 @@ public class WorkerServiceImpl implements IWorkerService
 
 	public void uploadFile (UploadFileArgs args) throws RemoteException
 	{
-		// delegate to thread
-
-		ThreadUploadFile thread = new ThreadUploadFile (args.uuid, args.contents);
-		thread.start ();
-
-		return;
+		try {
+			// delegate to thread
+			ThreadUploadFile thread = new ThreadUploadFile (args.uuid, args.contents);
+			thread.start ();
+		} catch (Exception e) {
+			e.printStackTrace ();
+			throw e;
+		}
 	}
 
 	public DownloadFileRes downloadFile (DownloadFileArgs args) throws Exception
 	{
-		return DownloadFile.downloadFile (args);
+		try {
+			return DownloadFile.downloadFile (args);
+		} catch (Exception e) {
+			e.printStackTrace ();
+			throw e;
+		}
 	}
 }

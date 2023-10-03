@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.security.InvalidParameterException;
 import java.util.stream.IntStream;
 import worker.config.Config;
+import worker.services.UtilLog;
 
 public class DownloadFile
 {
@@ -49,6 +50,7 @@ public class DownloadFile
 				new GZIPRemoteInputStream (new BufferedInputStream (new FileInputStream (file)));
 
 			DownloadFileRes res = new DownloadFileRes (args.uuid, file.length (), istream.export());
+			System.err.println (UtilLog.format ("File download ready to stream"));
 
 			// ignore "Resource leak" warning
 			// client will closed it when it finishes reading
@@ -58,12 +60,12 @@ public class DownloadFile
 			return res;
 
 		} catch (Exception e) {
-			System.err.println (e);
+			System.err.println (UtilLog.format (e.toString ()));
 		} finally {
 			if (istream != null)
 				istream.close ();
 		}
 
-		throw new FileNotFoundException ("Couldn't find file");
+		throw new FileNotFoundException (UtilLog.format ("Couldn't find file"));
 	}
 }
