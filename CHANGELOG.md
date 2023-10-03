@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.9 (2023-10-03)
+
+
+### Features
+
+* logging ([#19](https://github.com/hawks-atlanta/worker-java/issues/19)) ([a5c5968](https://github.com/hawks-atlanta/worker-java/commit/a5c5968fcfd2272148e0b15b1e4b4cde254d9a24))
+
 ### 0.0.8 (2023-10-01)
 
 ### 0.0.7 (2023-10-01)
