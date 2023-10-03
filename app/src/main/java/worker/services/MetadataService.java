@@ -33,7 +33,7 @@ public class MetadataService
 				return true;
 			}
 		} catch (Exception e) {
-			System.err.println (e);
+			System.err.println (UtilLog.format (e.toString ()));
 		}
 
 		return false;
@@ -63,7 +63,7 @@ public class MetadataService
 				r.isReady = true;
 			}
 		} catch (Exception e) {
-			System.err.println (e);
+			System.err.println (UtilLog.format (e.toString ()));
 		}
 
 		return r;
@@ -97,9 +97,9 @@ public class MetadataService
 				return UUID.fromString (resBody.getString ("uuid"));
 			}
 		} catch (Exception e) {
-			System.err.println (e);
+			System.err.println (UtilLog.format (e.toString ()));
 		}
 
-		throw new Exception ("Couldn't save file metadata");
+		throw new Exception (UtilLog.format ("Couldn't save file metadata"));
 	}
 }

@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.util.UUID;
 import worker.config.Config;
 import worker.services.MetadataService;
+import worker.services.UtilLog;
 
 public class ThreadUploadFile extends Thread
 {
@@ -48,9 +49,11 @@ public class ThreadUploadFile extends Thread
 			try {
 				sleep (READY_TIMEOUT);
 			} catch (Exception e) {
-				System.err.println (e);
+				System.err.println (UtilLog.format (e.toString ()));
 			}
 		}
+
+		System.out.println (UtilLog.format ("File written"));
 	}
 
 	private boolean writeFile (String path)
@@ -62,7 +65,7 @@ public class ThreadUploadFile extends Thread
 		try (FileOutputStream outputStream = new FileOutputStream (outputFile)) {
 			outputStream.write (this.contents);
 		} catch (Exception e) {
-			System.err.println (e);
+			System.err.println (UtilLog.format (e.toString ()));
 			return false;
 		}
 
