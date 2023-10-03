@@ -1,16 +1,22 @@
 package worker;
 
 import worker.config.Config;
+import worker.services.UtilLog;
 
 public class App
 {
-	public static void main (String[] args) throws Exception
+	public static void main (String[] args)
 	{
-		Config.initializeFromEnv ();
-		System.out.println ("Worker: Serving RMI");
+		try {
+			Config.initializeFromEnv ();
 
-		// serve RMI
-		WorkerServiceImpl server = new WorkerServiceImpl ();
-		server.createStubAndBind ();
+			// serve RMI
+			WorkerServiceImpl server = new WorkerServiceImpl ();
+			server.createStubAndBind ();
+
+			System.out.println (UtilLog.format ("Worker: Serving RMI on 0.0.0.0:1099"));
+		} catch (Exception e) {
+			e.printStackTrace ();
+		}
 	}
 }

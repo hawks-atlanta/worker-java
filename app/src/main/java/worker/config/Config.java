@@ -1,6 +1,7 @@
 package worker.config;
 
 import java.util.Arrays;
+import worker.services.UtilLog;
 
 public class Config
 {
@@ -26,10 +27,12 @@ public class Config
 			Config.availableVolumes =
 				Arrays.stream (aVols.split (",")).mapToInt (Integer::parseInt).toArray ();
 			if (availableVolumes.length == 0) {
-				throw new RuntimeException ("Invalid var AVAILABLE_VOLUMES: No volumes specified");
+				throw new RuntimeException (
+					UtilLog.format ("Invalid var AVAILABLE_VOLUMES: No volumes specified"));
 			}
 		} catch (Exception e) {
-			throw new RuntimeException ("Invalid var AVAILABLE_VOLUMES: Couldn't parse");
+			throw new RuntimeException (
+				UtilLog.format ("Invalid var AVAILABLE_VOLUMES: Couldn't parse"));
 		}
 	}
 }
