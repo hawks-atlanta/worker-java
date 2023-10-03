@@ -4,13 +4,17 @@ import worker.config.Config;
 
 public class App
 {
-	public static void main (String[] args) throws Exception
+	public static void main (String[] args)
 	{
-		Config.initializeFromEnv ();
-		System.out.println ("Worker: Serving RMI");
+		try {
+			Config.initializeFromEnv ();
+			System.out.println ("Worker: Serving RMI");
 
-		// serve RMI
-		WorkerServiceImpl server = new WorkerServiceImpl ();
-		server.createStubAndBind ();
+			// serve RMI
+			WorkerServiceImpl server = new WorkerServiceImpl ();
+			server.createStubAndBind ();
+		} catch (Exception e) {
+			e.printStackTrace ();
+		}
 	}
 }
